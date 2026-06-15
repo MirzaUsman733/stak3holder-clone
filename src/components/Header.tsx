@@ -124,12 +124,12 @@ export function Header({
                 avatarUrl={avatarUrl}
               />
             ) : (
-              <button
-                type="button"
+              <Link
+                to="/profile"
                 className="rounded-[7px] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 Log In | Sign Up
-              </button>
+              </Link>
             )}
 
             {!authenticated && (
