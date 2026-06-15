@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { MarketProvider } from "./context/MarketContext";
 import { HomePage } from "./pages/HomePage";
+import { PortfolioPage } from "./pages/PortfolioPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 
 export default function App() {
@@ -11,14 +12,10 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
             <Route
-              path="/portfolio"
-              element={
-                <PlaceholderPage
-                  title="Portfolio"
-                  description="Connect your wallet to view holdings, balances, and performance."
-                />
-              }
+              path="/profile"
+              element={<PortfolioPage />}
             />
             <Route
               path="/leaderboard"
@@ -53,6 +50,15 @@ export default function App() {
                 <PlaceholderPage
                   title="Terms"
                   description="Terms of service content can be connected to your CMS or legal pages."
+                />
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <PlaceholderPage
+                  title="Settings"
+                  description="Account and notification settings will appear here."
                 />
               }
             />

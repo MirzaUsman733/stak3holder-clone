@@ -11,18 +11,30 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SportToggle } from "./SportToggle";
+import { AuthenticatedHeaderActions } from "./AuthenticatedHeaderActions";
 import { useTheme } from "../context/ThemeContext";
+import { cn } from "../lib/utils";
 
 interface HeaderProps {
   showSearch?: boolean;
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
+  authenticated?: boolean;
+  cashBalance?: number;
+  portfolioValue?: number;
+  username?: string;
+  avatarUrl?: string;
 }
 
 export function Header({
   showSearch = false,
   searchQuery = "",
   onSearchChange,
+  authenticated = false,
+  cashBalance = 0,
+  portfolioValue = 0,
+  username,
+  avatarUrl,
 }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -76,34 +88,51 @@ export function Header({
 
             {showSearch && (
               <div className="relative hidden lg:block">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   type="search"
                   value={searchQuery}
                   onChange={(event) => onSearchChange?.(event.target.value)}
                   placeholder="Search teams and users..."
-                  className="w-96 rounded-lg bg-secondary py-2 pl-10 pr-4 text-sm outline-none transition-shadow focus:ring-2 focus:ring-primary"
+                  className={cn(
+                    "bg-secondary py-2 pl-10 pr-4 text-sm outline-none transition-shadow focus:ring-2 focus:ring-primary",
+                    authenticated
+                      ? "w-[28rem] rounded-full"
+                      : "w-96 rounded-lg",
+                  )}
                 />
               </div>
             )}
 
-            <Link
-              to="/faq"
-              className="hidden items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground lg:flex"
-            >
-              <HelpCircle className="h-4 w-4" />
-              How it Works
-            </Link>
+            {!authenticated && (
+              <Link
+                to="/faq"
+                className="hidden items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground lg:flex"
+              >
+                <HelpCircle className="h-4 w-4" />
+                How it Works
+              </Link>
+            )}
           </div>
 
           <div className="ml-3 flex items-center gap-2">
-            <button
-              type="button"
-              className="rounded-[7px] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Log In | Sign Up
-            </button>
+            {authenticated ? (
+              <AuthenticatedHeaderActions
+                cashBalance={cashBalance}
+                portfolioValue={portfolioValue}
+                username={username}
+                avatarUrl={avatarUrl}
+              />
+            ) : (
+              <button
+                type="button"
+                className="rounded-[7px] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                Log In | Sign Up
+              </button>
+            )}
 
+            {!authenticated && (
             <div
               ref={menuRef}
               className="relative hidden lg:block"
@@ -156,6 +185,7 @@ export function Header({
                 )}
               </AnimatePresence>
             </div>
+            )}
 
             <button
               type="button"
@@ -191,6 +221,34 @@ export function Header({
                   />
                 </div>
               )}
+              {authenticated ? (
+                <>
+                  <Link
+                    to="/portfolio"
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-sm font-medium text-muted-foreground"
+                  >
+                    My Portfolio
+                  </Link>
+                  <Link
+                    to="/leaderboard"
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-sm font-medium text-muted-foreground"
+                  >
+                    Leaderboard
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      toggleTheme();
+                    }}
+                    className="block text-sm font-medium text-muted-foreground"
+                  >
+                    {theme === "dark" ? "Light mode" : "Dark mode"}
+                  </button>
+                </>
+              ) : (
+                <>
               <Link
                 to="/faq"
                 onClick={() => setMobileOpen(false)}
@@ -206,6 +264,8 @@ export function Header({
               >
                 Leaderboard
               </Link>
+                </>
+              )}
             </div>
           </motion.div>
         )}
