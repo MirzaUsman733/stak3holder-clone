@@ -43,7 +43,7 @@ function TradeCard({ trade }: { trade: TopTrade }) {
         ) : (
           <div className="h-8 w-8 rounded-full bg-muted" />
         )}
-        <span className="text-sm font-semibold text-emerald-500">
+        <span className="text-sm font-semibold text-success">
           +${trade.pnl.toFixed(2)}
         </span>
       </div>

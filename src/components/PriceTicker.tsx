@@ -110,7 +110,7 @@ function TickerPill({ item }: { item: TickerItem }) {
     item.change == null || Number.isNaN(item.change)
       ? "text-muted-foreground"
       : item.change > 0
-        ? "text-emerald-500"
+        ? "text-success"
         : item.change < 0
           ? "text-red-500"
           : "text-muted-foreground";

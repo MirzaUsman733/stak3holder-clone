@@ -75,7 +75,7 @@ export function TeamTradeBadge({
               isFlat
                 ? "text-muted-foreground"
                 : isUp
-                  ? "text-emerald-400"
+                  ? "text-success"
                   : "text-red-400",
             )}
           >

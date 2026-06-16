@@ -22,7 +22,7 @@ const STEPS = [
   },
   {
     icon: Banknote,
-    iconClassName: "text-emerald-500",
+    iconClassName: "text-success",
     title: "Claim Anytime",
     description: "Rewards stack up daily. Cash out anytime — even a penny.",
   },
@@ -79,8 +79,8 @@ export function EarnRewardsModal({ open, onOpenChange }: EarnRewardsModalProps) 
             </button>
 
             <div className="flex flex-col items-center px-6 pb-2 pt-8 text-center">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
-                <Banknote className="h-7 w-7 text-emerald-500" />
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-success/10">
+                <Banknote className="h-7 w-7 text-success" />
               </div>
               <h2 id="earn-rewards-title" className="mb-2 text-xl font-bold">
                 Earn Rewards
