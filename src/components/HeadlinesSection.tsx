@@ -1,11 +1,10 @@
 import type { Sport } from "../types";
-import {
-  getFeaturedHeadline,
-  getHeadlineGrid,
-  useHeadlines,
-} from "../hooks/useHeadlines";
+import { getFeaturedHeadline, useHeadlines } from "../hooks/useHeadlines";
+import { getSportFeaturedStory } from "../data/featuredStories";
+import { getDataSport } from "../lib/market";
 import type { Team } from "../types";
-import { FeaturedHeadline, HeadlineCard } from "./FeaturedHeadline";
+import { FeaturedHeadline } from "./FeaturedHeadline";
+import { LiveScoresStrip } from "./LiveScoresStrip";
 import { Skeleton } from "./ui/primitives";
 
 interface HeadlinesSectionProps {
@@ -14,19 +13,15 @@ interface HeadlinesSectionProps {
 }
 
 export function HeadlinesSection({ sport, teamsById }: HeadlinesSectionProps) {
-  const { headlines, isLoading } = useHeadlines(sport, teamsById);
-  const featured = getFeaturedHeadline(headlines);
-  const grid = getHeadlineGrid(headlines);
+  const dataSport = getDataSport(sport);
+  const { headlines, isLoading } = useHeadlines(dataSport, teamsById);
+  const sportFeatured = getSportFeaturedStory(sport);
+  const featured = sportFeatured ?? getFeaturedHeadline(headlines);
 
-  if (isLoading) {
+  if (isLoading && !sportFeatured) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-[380px] w-full rounded-2xl md:h-[420px]" />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <Skeleton key={index} className="h-36 rounded-2xl" />
-          ))}
-        </div>
       </div>
     );
   }
@@ -34,7 +29,7 @@ export function HeadlinesSection({ sport, teamsById }: HeadlinesSectionProps) {
   if (!featured) {
     return (
       <div className="rounded-lg border border-dashed border-border py-12 text-center text-muted-foreground">
-        No headlines yet for College Basketball.
+        No headlines yet.
       </div>
     );
   }
@@ -42,15 +37,7 @@ export function HeadlinesSection({ sport, teamsById }: HeadlinesSectionProps) {
   return (
     <div className="space-y-4">
       <FeaturedHeadline headline={featured} />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {grid.map((headline, index) => (
-          <HeadlineCard
-            key={headline.id}
-            headline={headline}
-            className={index >= 3 ? "hidden md:block" : undefined}
-          />
-        ))}
-      </div>
+      <LiveScoresStrip />
     </div>
   );
 }

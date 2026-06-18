@@ -14,6 +14,8 @@ export interface Headline {
   publishedAgo: string;
   teamTags: HeadlineTeamTag[];
   featured?: boolean;
+  imageUrl?: string;
+  hideMeta?: boolean;
 }
 
 export interface TopTrade {

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Sport, Team } from "../types";
+import { getTrendingChangeKey } from "../types";
 import { cn } from "../lib/utils";
 
 interface TickerItem {
@@ -177,7 +178,7 @@ export function PriceTicker({ teams, sport, isLoading }: PriceTickerProps) {
       .sort((a, b) => b.price - a.price)
       .slice(0, 20)
       .map((team) => {
-        const rawChange = sport === "cbb" ? team.change7d : team.change3m;
+        const rawChange = team[getTrendingChangeKey(sport)];
         const change =
           rawChange != null && Math.abs(rawChange) > 0.5 ? rawChange : undefined;
 

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {
-  HelpCircle,
   Menu,
   Moon,
   Search,
@@ -14,6 +13,7 @@ import { SportToggle } from "./SportToggle";
 import { AuthenticatedHeaderActions } from "./AuthenticatedHeaderActions";
 import { useTheme } from "../context/ThemeContext";
 import { cn } from "../lib/utils";
+import streakxLogo from "../assets/streakx-logo.png";
 
 interface HeaderProps {
   showSearch?: boolean;
@@ -72,13 +72,9 @@ export function Header({
           <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-6">
             <Link to="/" className="flex shrink-0 items-center">
               <img
-                src={
-                  theme === "light"
-                    ? "/lovable-uploads/logo_black.png"
-                    : "/lovable-uploads/logo_white.png"
-                }
-                alt="Stakeholder Logo"
-                className="h-11 w-auto object-contain lg:h-[2.6rem]"
+                src={streakxLogo}
+                alt="StreakX"
+                className="h-11 w-auto object-contain lg:h-12"
               />
             </Link>
 
@@ -103,19 +99,9 @@ export function Header({
                 />
               </div>
             )}
-
-            {!authenticated && (
-              <Link
-                to="/faq"
-                className="hidden items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground lg:flex"
-              >
-                <HelpCircle className="h-4 w-4" />
-                How it Works
-              </Link>
-            )}
           </div>
 
-          <div className="ml-3 flex items-center gap-2">
+          <div className="ml-3 flex shrink-0 items-center gap-2">
             {authenticated ? (
               <AuthenticatedHeaderActions
                 cashBalance={cashBalance}
@@ -197,6 +183,10 @@ export function Header({
             </button>
           </div>
         </div>
+
+        <div className="border-t border-white/10 pb-2.5 pt-2 lg:hidden">
+          <SportToggle className="w-full" />
+        </div>
       </div>
 
       <AnimatePresence>
@@ -208,7 +198,6 @@ export function Header({
             className="overflow-hidden border-t border-white/10 lg:hidden"
           >
             <div className="space-y-4 px-4 py-4">
-              <SportToggle />
               {showSearch && (
                 <div className="relative">
                   <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -249,14 +238,6 @@ export function Header({
                 </>
               ) : (
                 <>
-              <Link
-                to="/faq"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 text-sm text-muted-foreground"
-              >
-                <HelpCircle className="h-4 w-4" />
-                How it Works
-              </Link>
               <Link
                 to="/leaderboard"
                 onClick={() => setMobileOpen(false)}

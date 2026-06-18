@@ -1,5 +1,6 @@
 import { Activity } from "lucide-react";
 import type { Sport, TrendingItem } from "../types";
+import { getTrendingChangeKey } from "../types";
 import { ChangeBadge, TeamAvatar } from "./ui/primitives";
 
 interface TrendingSidebarProps {
@@ -9,7 +10,7 @@ interface TrendingSidebarProps {
 }
 
 function getTrendingChange(item: TrendingItem, sport: Sport) {
-  return sport === "cbb" ? item.change7d : item.change3m;
+  return item[getTrendingChangeKey(sport)];
 }
 
 export function TrendingSidebar({

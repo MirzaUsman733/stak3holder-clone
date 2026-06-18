@@ -1,13 +1,83 @@
 import { Clock } from "lucide-react";
-import type { Headline } from "../types/headlines";
+import type { Headline, HeadlineTeamTag } from "../types/headlines";
 import { TeamTradeBadge } from "./TeamTradeBadge";
+import { cn } from "../lib/utils";
 
 interface FeaturedHeadlineProps {
   headline: Headline;
 }
 
+function PhotoHeroChip({ tag }: { tag: HeadlineTeamTag }) {
+  const hasChange = tag.change != null;
+  const isUp = (tag.change ?? 0) >= 0;
+
+  return (
+    <div className="inline-flex items-center gap-2 rounded-full border border-border/40 bg-secondary py-1 pl-1 pr-3">
+      <img
+        src={tag.logoUrl}
+        alt={tag.abbreviation}
+        className="h-5 w-5 object-contain"
+      />
+      <span className="text-xs font-semibold">{tag.abbreviation}</span>
+      {hasChange && (
+        <span
+          className={cn(
+            "text-[11px] font-semibold",
+            isUp ? "text-success" : "text-red-400",
+          )}
+        >
+          {isUp ? "▲" : "▼"} {Math.abs(tag.change!).toFixed(1)}%
+        </span>
+      )}
+    </div>
+  );
+}
+
 export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
   const team = headline.teamTags[0];
+
+  if (headline.imageUrl) {
+    return (
+      <button
+        type="button"
+        className="relative block aspect-[16/8] w-full cursor-pointer overflow-hidden rounded-2xl border border-border/30 bg-card text-left sm:aspect-[16/6.5]"
+      >
+        <img
+          src={headline.imageUrl}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+
+        <div className="relative flex h-full max-w-2xl flex-col justify-end p-5 sm:p-7">
+          <h2 className="mb-2 line-clamp-3 text-lg font-bold text-white md:text-2xl">
+            {headline.title}
+          </h2>
+
+          {!headline.hideMeta && (headline.source || headline.publishedAgo) && (
+            <div className="mb-4 flex items-center gap-3 text-sm text-white/70">
+              {headline.source && <span>{headline.source}</span>}
+              {headline.publishedAgo && (
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-4 w-4" />
+                  <span>{headline.publishedAgo}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {team && (
+            <div className="flex gap-2">
+              <PhotoHeroChip tag={team} />
+            </div>
+          )}
+        </div>
+      </button>
+    );
+  }
+
   const gradient = team
     ? `linear-gradient(to right, ${team.primaryColor}dd 0%, ${team.primaryColor} 100%)`
     : "linear-gradient(to right, #1e3a8a 0%, #2563eb 100%)";

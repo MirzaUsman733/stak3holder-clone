@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useMarket } from "../context/MarketContext";
 import { useMarketData } from "../hooks/useMarketData";
+import { getDataSport } from "../lib/market";
 import type { MobileListTab } from "../types";
 import { Header } from "../components/Header";
 import { PriceTicker } from "../components/PriceTicker";
@@ -14,6 +15,7 @@ import { cn } from "../lib/utils";
 
 export function HomePage() {
   const { sport } = useMarket();
+  const dataSport = getDataSport(sport);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileTab, setMobileTab] = useState<MobileListTab>("trending");
 
@@ -23,7 +25,7 @@ export function HomePage() {
     gainers,
     teamByTokenAddress,
     isLoading,
-  } = useMarketData(sport);
+  } = useMarketData(dataSport);
 
   const teamsById = useMemo(
     () => new Map(teams.map((team) => [team.id, team])),
@@ -49,17 +51,17 @@ export function HomePage() {
         onSearchChange={setSearchQuery}
       />
 
-      <PriceTicker teams={teams} sport={sport} isLoading={isLoading} />
+      <PriceTicker teams={teams} sport={dataSport} isLoading={isLoading} />
 
       <main className="site-container py-6">
         <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-4">
           <div className="lg:col-span-3">
             <HeadlinesSection sport={sport} teamsById={teamsById} />
           </div>
-          <TrendingSidebar items={trending} sport={sport} isLoading={isLoading} />
+          <TrendingSidebar items={trending} sport={dataSport} isLoading={isLoading} />
         </div>
 
-        <WeeklyTopTrades sport={sport} teamByToken={teamByTokenAddress} />
+        <WeeklyTopTrades sport={dataSport} teamByToken={teamByTokenAddress} />
 
         <div className="lg:hidden">
           <div className="mb-4 flex items-center justify-between">
@@ -91,7 +93,7 @@ export function HomePage() {
 
           <MobileTeamList
             teams={mobileTeams}
-            sport={sport}
+            sport={dataSport}
             changeField={mobileChangeField}
             isLoading={isLoading}
           />

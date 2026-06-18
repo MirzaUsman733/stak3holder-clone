@@ -1,4 +1,5 @@
 import type { Sport, Team } from "../types";
+import { SPORTS } from "../types";
 
 type TeamSeed = Omit<
   Team,
@@ -168,7 +169,8 @@ export function getGainerTeams(teams: Team[]) {
 }
 
 export function getSportLabel(sport: Sport) {
-  return sport === "cbb" ? "College Basketball" : "College Football";
+  const entry = SPORTS.find((item) => item.id === sport);
+  return entry?.label ?? sport.toUpperCase();
 }
 
 export function hasActivePrices(teams: Team[]) {

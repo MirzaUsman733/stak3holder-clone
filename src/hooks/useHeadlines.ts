@@ -44,7 +44,6 @@ export function getFeaturedHeadline(headlines: Headline[]) {
   return headlines.find((headline) => headline.featured) ?? headlines[0];
 }
 
-export function getHeadlineGrid(headlines: Headline[]) {
-  const featured = getFeaturedHeadline(headlines);
-  return headlines.filter((headline) => headline.id !== featured?.id).slice(0, 6);
+export function getHeadlineGrid(headlines: Headline[], excludeId?: string) {
+  return headlines.filter((headline) => headline.id !== excludeId).slice(0, 6);
 }

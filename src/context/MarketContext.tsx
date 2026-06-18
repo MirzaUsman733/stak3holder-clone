@@ -15,7 +15,7 @@ interface MarketContextValue {
 const MarketContext = createContext<MarketContextValue | undefined>(undefined);
 
 export function MarketProvider({ children }: { children: ReactNode }) {
-  const [sport, setSport] = useState<Sport>("cbb");
+  const [sport, setSport] = useState<Sport>("mlb");
 
   const value = useMemo(
     () => ({

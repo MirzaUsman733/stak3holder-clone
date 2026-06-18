@@ -1,4 +1,5 @@
 import type { Sport, Team } from "../types";
+import { getTrendingChangeKey } from "../types";
 import { ChangeBadge, TeamAvatar } from "./ui/primitives";
 
 interface MobileTeamListProps {
@@ -17,7 +18,7 @@ function getChangeValue(
     return team.change24h;
   }
 
-  return sport === "cbb" ? team.change7d : team.change3m;
+  return team[getTrendingChangeKey(sport)];
 }
 
 export function MobileTeamList({
