@@ -40,7 +40,7 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
     return (
       <button
         type="button"
-        className="relative block aspect-[16/8] w-full cursor-pointer overflow-hidden rounded-2xl border border-border/30 bg-card text-left sm:aspect-[16/6.5]"
+        className="relative block aspect-[21/9] w-full cursor-pointer overflow-hidden rounded-2xl border border-border/30 bg-card text-left sm:aspect-[16/6.5]"
       >
         <img
           src={headline.imageUrl}
@@ -51,8 +51,8 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/5" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
 
-        <div className="relative flex h-full max-w-2xl flex-col justify-end p-5 sm:p-7">
-          <h2 className="mb-2 line-clamp-3 text-lg font-bold text-white md:text-2xl">
+        <div className="relative flex h-full max-w-2xl flex-col justify-end p-4 sm:p-7">
+          <h2 className="mb-1.5 line-clamp-2 text-base font-bold leading-snug text-white sm:mb-2 sm:line-clamp-3 sm:text-lg md:text-2xl">
             {headline.title}
           </h2>
 
