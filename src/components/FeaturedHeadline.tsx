@@ -1,36 +1,9 @@
 import { Clock } from "lucide-react";
-import type { Headline, HeadlineTeamTag } from "../types/headlines";
+import type { Headline } from "../types/headlines";
 import { TeamTradeBadge } from "./TeamTradeBadge";
-import { cn } from "../lib/utils";
 
 interface FeaturedHeadlineProps {
   headline: Headline;
-}
-
-function PhotoHeroChip({ tag }: { tag: HeadlineTeamTag }) {
-  const hasChange = tag.change != null;
-  const isUp = (tag.change ?? 0) >= 0;
-
-  return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-border/40 bg-secondary py-1 pl-1 pr-3">
-      <img
-        src={tag.logoUrl}
-        alt={tag.abbreviation}
-        className="h-5 w-5 object-contain"
-      />
-      <span className="text-xs font-semibold">{tag.abbreviation}</span>
-      {hasChange && (
-        <span
-          className={cn(
-            "text-[11px] font-semibold",
-            isUp ? "text-success" : "text-red-400",
-          )}
-        >
-          {isUp ? "▲" : "▼"} {Math.abs(tag.change!).toFixed(1)}%
-        </span>
-      )}
-    </div>
-  );
 }
 
 export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
@@ -52,12 +25,12 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
 
         <div className="relative flex h-full max-w-2xl flex-col justify-end p-4 sm:p-7">
-          <h2 className="mb-1.5 line-clamp-2 text-base font-bold leading-snug text-white sm:mb-2 sm:line-clamp-3 sm:text-lg md:text-2xl">
+          <h2 className="line-clamp-2 text-base font-bold leading-snug text-white sm:line-clamp-3 sm:text-lg md:text-2xl">
             {headline.title}
           </h2>
 
           {!headline.hideMeta && (headline.source || headline.publishedAgo) && (
-            <div className="mb-4 flex items-center gap-3 text-sm text-white/70">
+            <div className="mt-2 flex items-center gap-3 text-sm text-white/70">
               {headline.source && <span>{headline.source}</span>}
               {headline.publishedAgo && (
                 <div className="flex items-center gap-1.5">
@@ -65,12 +38,6 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
                   <span>{headline.publishedAgo}</span>
                 </div>
               )}
-            </div>
-          )}
-
-          {team && (
-            <div className="flex gap-2">
-              <PhotoHeroChip tag={team} />
             </div>
           )}
         </div>

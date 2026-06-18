@@ -184,8 +184,8 @@ export function Header({
           </div>
         </div>
 
-        <div className="border-t border-white/10 pb-2.5 pt-2 lg:hidden">
-          <SportToggle className="w-full" />
+        <div className="overflow-hidden border-t border-white/10 pb-2.5 pt-2 lg:hidden">
+          <SportToggle />
         </div>
       </div>
 

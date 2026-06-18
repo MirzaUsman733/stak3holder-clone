@@ -11,14 +11,7 @@ const FEATURED_BY_SPORT: Partial<Record<Sport, Headline>> = {
     imageUrl: mlbDodgersHero,
     hideMeta: true,
     featured: true,
-    teamTags: [
-      {
-        abbreviation: "LAD",
-        primaryColor: "#005A9C",
-        logoUrl: "https://a.espncdn.com/i/teamlogos/mlb/500/lad.png",
-        change: 26.9,
-      },
-    ],
+    teamTags: [],
   },
 };
 
