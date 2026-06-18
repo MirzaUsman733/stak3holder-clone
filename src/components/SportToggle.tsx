@@ -1,11 +1,11 @@
-import type { ReactNode } from "react";
-import { useMarket } from "../context/MarketContext";
+import { useState, type ReactNode } from "react";
+import type { Sport } from "../types";
 import { SPORTS } from "../types";
 import { SportIcon } from "./SportIcon";
 import { cn } from "../lib/utils";
 
 export function SportToggle({ className }: { className?: string }) {
-  const { sport, setSport } = useMarket();
+  const [activeSport, setActiveSport] = useState<Sport>("mlb");
 
   return (
     <div
@@ -19,10 +19,10 @@ export function SportToggle({ className }: { className?: string }) {
       {SPORTS.map((option) => (
         <SportPill
           key={option.id}
-          active={sport === option.id}
+          active={activeSport === option.id}
           label={option.shortLabel}
           icon={<SportIcon sport={option.id} className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />}
-          onClick={() => setSport(option.id)}
+          onClick={() => setActiveSport(option.id)}
         />
       ))}
     </div>

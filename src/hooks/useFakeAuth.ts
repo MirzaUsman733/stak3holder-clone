@@ -3,14 +3,16 @@ import { useEffect, useState } from "react";
 const STORAGE_KEY = "streakx_fake_auth";
 const AUTH_EVENT = "streakx_fake_auth_change";
 
+function readLoggedIn() {
+  if (typeof window === "undefined") return true;
+  return localStorage.getItem(STORAGE_KEY) !== "0";
+}
+
 export function useFakeAuth() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return localStorage.getItem(STORAGE_KEY) === "1";
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(readLoggedIn);
 
   useEffect(() => {
-    const sync = () => setIsLoggedIn(localStorage.getItem(STORAGE_KEY) === "1");
+    const sync = () => setIsLoggedIn(readLoggedIn());
     window.addEventListener(AUTH_EVENT, sync);
     window.addEventListener("storage", sync);
     return () => {
@@ -25,7 +27,7 @@ export function useFakeAuth() {
   };
 
   const logout = () => {
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.setItem(STORAGE_KEY, "0");
     window.dispatchEvent(new Event(AUTH_EVENT));
   };
 
