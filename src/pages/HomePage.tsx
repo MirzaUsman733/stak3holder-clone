@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useMarket } from "../context/MarketContext";
 import { useMarketData } from "../hooks/useMarketData";
 import type { MobileListTab } from "../types";
@@ -10,6 +10,10 @@ import { TrendingSidebar } from "../components/TrendingSidebar";
 import { WeeklyTopTrades } from "../components/WeeklyTopTrades";
 import { BrowseTeamsSection } from "../components/TeamsTable";
 import { MobileTeamList } from "../components/MobileTeamList";
+import { StreakBanner } from "../components/StreakBanner";
+import { LiveScoresStrip } from "../components/LiveScoresStrip";
+import { MobileBottomNav } from "../components/MobileBottomNav";
+import { HowItWorksBanner } from "../components/HowItWorksBanner";
 import { cn } from "../lib/utils";
 
 export function HomePage() {
@@ -25,11 +29,6 @@ export function HomePage() {
     isLoading,
   } = useMarketData(sport);
 
-  const teamsById = useMemo(
-    () => new Map(teams.map((team) => [team.id, team])),
-    [teams],
-  );
-
   const mobileTeams =
     mobileTab === "trending"
       ? trending
@@ -42,69 +41,91 @@ export function HomePage() {
     mobileTab === "gainers" ? ("24h" as const) : ("7d" as const);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background pb-28 text-foreground md:pb-0">
+      <div className="hidden sm:block">
+        <PriceTicker teams={teams} sport={sport} isLoading={isLoading} />
+      </div>
+
       <Header
         showSearch
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
 
-      <PriceTicker teams={teams} sport={sport} isLoading={isLoading} />
+      <main className="mx-auto max-w-7xl px-3 py-3 sm:px-5 sm:py-6">
+        <div className="flex flex-col gap-5 lg:flex-row">
+          <div className="min-w-0 flex-1">
+            <div className="mb-3 sm:mb-4">
+              <StreakBanner />
+            </div>
 
-      <main className="site-container py-6">
-        <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-4">
-          <div className="lg:col-span-3">
-            <HeadlinesSection sport={sport} teamsById={teamsById} />
-          </div>
-          <TrendingSidebar items={trending} sport={sport} isLoading={isLoading} />
-        </div>
+            <LiveScoresStrip />
 
-        <WeeklyTopTrades sport={sport} teamByToken={teamByTokenAddress} />
+            <div className="sm:hidden">
+              <HeadlinesSection variant="mobile" />
+              <WeeklyTopTrades sport={sport} teamByToken={teamByTokenAddress} />
+            </div>
 
-        <div className="lg:hidden">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex gap-2">
-              {(
-                [
-                  ["trending", "Trending"],
-                  ...(gainers.length > 0
-                    ? ([["gainers", "Gainers (24H)"]] as const)
-                    : []),
-                ] as const
-              ).map(([tab, label]) => (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setMobileTab(tab)}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                    mobileTab === tab
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground",
-                  )}
-                >
-                  {label}
-                </button>
-              ))}
+            <div className="hidden sm:block">
+              <HeadlinesSection variant="desktop" />
+              <WeeklyTopTrades sport={sport} teamByToken={teamByTokenAddress} />
+            </div>
+
+            <div id="browse" className="mt-6 lg:hidden">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex gap-2">
+                  {(
+                    [
+                      ["trending", "Trending"],
+                      ...(gainers.length > 0
+                        ? ([["gainers", "Gainers (24H)"]] as const)
+                        : []),
+                    ] as const
+                  ).map(([tab, label]) => (
+                    <button
+                      key={tab}
+                      type="button"
+                      onClick={() => setMobileTab(tab)}
+                      className={cn(
+                        "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                        mobileTab === tab
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground",
+                      )}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <MobileTeamList
+                teams={mobileTeams}
+                sport={sport}
+                changeField={mobileChangeField}
+                isLoading={isLoading}
+              />
+            </div>
+
+            <div className="mt-6 hidden lg:block">
+              <BrowseTeamsSection
+                teams={teams}
+                searchQuery={searchQuery}
+                isLoading={isLoading}
+              />
             </div>
           </div>
 
-          <MobileTeamList
-            teams={mobileTeams}
-            sport={sport}
-            changeField={mobileChangeField}
-            isLoading={isLoading}
-          />
+          <TrendingSidebar items={trending} sport={sport} isLoading={isLoading} />
         </div>
-
-        <BrowseTeamsSection
-          teams={teams}
-          searchQuery={searchQuery}
-          isLoading={isLoading}
-        />
       </main>
 
-      <Footer />
+      <div className="hidden md:block">
+        <Footer />
+      </div>
+
+      <HowItWorksBanner />
+      <MobileBottomNav />
     </div>
   );
 }

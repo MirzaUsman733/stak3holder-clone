@@ -111,7 +111,7 @@ export function ChangeBadge({
       ? isFlat
         ? "text-muted-foreground"
         : isUp
-          ? "text-success"
+          ? "text-emerald-400"
           : "text-red-400"
       : isFlat
         ? "text-muted-foreground"

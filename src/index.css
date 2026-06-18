@@ -25,6 +25,9 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+  --color-surface-1: hsl(var(--surface-1));
+  --color-surface-2: hsl(var(--surface-2));
+  --color-surface-hover: hsl(var(--surface-hover));
 
   --radius-lg: 1rem;
   --radius-xl: 1.25rem;
@@ -54,6 +57,9 @@
   --input: 240 5.9% 90%;
   --ring: 240 5.9% 10%;
   --radius: 0.5rem;
+  --surface-1: 0 0% 100%;
+  --surface-2: 240 4.8% 95.9%;
+  --surface-hover: 240 4.8% 92%;
 }
 
 .dark {
@@ -78,6 +84,9 @@
   --border: 240 3.7% 15.9%;
   --input: 240 3.7% 15.9%;
   --ring: 240 4.9% 83.9%;
+  --surface-1: 240 6% 6%;
+  --surface-2: 240 4% 10%;
+  --surface-hover: 240 4% 14%;
 }
 
 @layer base {
@@ -150,4 +159,23 @@
 
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.shadow-card-sm {
+  box-shadow: 0 1px 2px hsl(var(--foreground) / 0.06);
+}
+
+.shadow-card-md {
+  box-shadow:
+    0 2px 8px hsl(var(--foreground) / 0.08),
+    0 1px 2px hsl(var(--foreground) / 0.04);
 }
