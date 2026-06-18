@@ -1,42 +1,39 @@
-import type { Sport } from "../types";
-import { getFeaturedHeadline, useHeadlines } from "../hooks/useHeadlines";
-import { getSportFeaturedStory } from "../data/featuredStories";
-import { getDataSport } from "../lib/market";
-import type { Team } from "../types";
+import type { Headline } from "../types/headlines";
 import { FeaturedHeadline } from "./FeaturedHeadline";
 import { LiveScoresStrip } from "./LiveScoresStrip";
 import { Skeleton } from "./ui/primitives";
 
 interface HeadlinesSectionProps {
-  sport: Sport;
-  teamsById: Map<string, Team>;
+  featured: Headline | null | undefined;
+  isLoading?: boolean;
 }
 
-export function HeadlinesSection({ sport, teamsById }: HeadlinesSectionProps) {
-  const dataSport = getDataSport(sport);
-  const { headlines, isLoading } = useHeadlines(dataSport, teamsById);
-  const sportFeatured = getSportFeaturedStory(sport);
-  const featured = sportFeatured ?? getFeaturedHeadline(headlines);
+export function HeadlinesSection({ featured, isLoading }: HeadlinesSectionProps) {
+  const showGradientHero = featured && !featured.imageUrl;
 
-  if (isLoading && !sportFeatured) {
+  if (isLoading && !featured) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-2">
         <Skeleton className="h-[380px] w-full rounded-2xl md:h-[420px]" />
+        <LiveScoresStrip />
       </div>
     );
   }
 
-  if (!featured) {
+  if (!featured && !isLoading) {
     return (
-      <div className="rounded-lg border border-dashed border-border py-12 text-center text-muted-foreground">
-        No headlines yet.
+      <div className="space-y-2">
+        <div className="rounded-lg border border-dashed border-border py-12 text-center text-muted-foreground">
+          No headlines yet.
+        </div>
+        <LiveScoresStrip />
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <FeaturedHeadline headline={featured} />
+    <div className="space-y-2">
+      {showGradientHero && <FeaturedHeadline headline={featured} />}
       <LiveScoresStrip />
     </div>
   );

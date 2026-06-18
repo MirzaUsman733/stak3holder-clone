@@ -6,11 +6,13 @@ import type { MobileListTab } from "../types";
 import { Header } from "../components/Header";
 import { PriceTicker } from "../components/PriceTicker";
 import { Footer } from "../components/Footer";
+import { FeaturedHeadline } from "../components/FeaturedHeadline";
 import { HeadlinesSection } from "../components/HeadlinesSection";
 import { TrendingSidebar } from "../components/TrendingSidebar";
 import { WeeklyTopTrades } from "../components/WeeklyTopTrades";
 import { BrowseTeamsSection } from "../components/TeamsTable";
 import { MobileTeamList } from "../components/MobileTeamList";
+import { useFeaturedHeadline } from "../hooks/useHeadlines";
 import { cn } from "../lib/utils";
 
 export function HomePage() {
@@ -43,6 +45,11 @@ export function HomePage() {
   const mobileChangeField =
     mobileTab === "gainers" ? ("24h" as const) : ("7d" as const);
 
+  const { featured, isLoading: isFeaturedLoading } = useFeaturedHeadline(
+    sport,
+    teamsById,
+  );
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header
@@ -53,10 +60,18 @@ export function HomePage() {
 
       <PriceTicker teams={teams} sport={dataSport} isLoading={isLoading} />
 
-      <main className="site-container py-6">
-        <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-4">
+      <main className="site-container py-2 sm:py-4">
+        <div className="mb-5 grid grid-cols-1 items-stretch gap-4 lg:grid-cols-4 lg:gap-6">
           <div className="lg:col-span-3">
-            <HeadlinesSection sport={sport} teamsById={teamsById} />
+            {featured?.imageUrl && (
+              <div className="mb-2 -mx-4 w-[calc(100%+2rem)] max-w-none sm:mx-0 sm:w-full">
+                <FeaturedHeadline headline={featured} />
+              </div>
+            )}
+            <HeadlinesSection
+              featured={featured}
+              isLoading={isFeaturedLoading}
+            />
           </div>
           <TrendingSidebar items={trending} sport={dataSport} isLoading={isLoading} />
         </div>

@@ -13,7 +13,7 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
     return (
       <button
         type="button"
-        className="relative block aspect-[21/9] w-full cursor-pointer overflow-hidden rounded-2xl border border-border/30 bg-card text-left sm:aspect-[16/6.5]"
+        className="relative block aspect-[16/9] w-full cursor-pointer overflow-hidden bg-card text-left sm:aspect-[16/6.5] sm:rounded-2xl sm:border sm:border-border/30"
       >
         <img
           src={headline.imageUrl}
@@ -21,11 +21,11 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
           aria-hidden
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/5" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/80 sm:bg-gradient-to-r sm:from-black/85 sm:via-black/55 sm:to-black/10" />
+        <div className="absolute inset-0 hidden bg-gradient-to-t from-black/40 via-transparent to-transparent sm:block" />
 
-        <div className="relative flex h-full max-w-2xl flex-col justify-end p-4 sm:p-7">
-          <h2 className="line-clamp-2 text-base font-bold leading-snug text-white sm:line-clamp-3 sm:text-lg md:text-2xl">
+        <div className="relative flex h-full max-w-2xl flex-col justify-end px-4 pb-4 pt-8 sm:p-7">
+          <h2 className="line-clamp-2 text-[15px] font-extrabold leading-[1.2] tracking-tight text-white sm:line-clamp-3 sm:text-2xl lg:text-[28px]">
             {headline.title}
           </h2>
 

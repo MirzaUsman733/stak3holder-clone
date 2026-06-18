@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import { fetchHeadlines } from "../api/client";
 import { formatTimeAgo } from "../lib/format";
+import { getSportFeaturedStory } from "../data/featuredStories";
+import { getDataSport } from "../lib/market";
 import type { Headline } from "../types/headlines";
 import type { Sport, Team } from "../types";
 import { useFetch } from "./useFetch";
@@ -46,4 +48,20 @@ export function getFeaturedHeadline(headlines: Headline[]) {
 
 export function getHeadlineGrid(headlines: Headline[], excludeId?: string) {
   return headlines.filter((headline) => headline.id !== excludeId).slice(0, 6);
+}
+
+export function useFeaturedHeadline(sport: Sport, teamsById: Map<string, Team>) {
+  const dataSport = getDataSport(sport);
+  const { headlines, isLoading } = useHeadlines(dataSport, teamsById);
+  const sportFeatured = getSportFeaturedStory(sport);
+
+  const featured = useMemo(
+    () => sportFeatured ?? getFeaturedHeadline(headlines),
+    [sportFeatured, headlines],
+  );
+
+  return {
+    featured,
+    isLoading: isLoading && !sportFeatured,
+  };
 }

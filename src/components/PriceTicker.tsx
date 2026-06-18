@@ -195,7 +195,7 @@ export function PriceTicker({ teams, sport, isLoading }: PriceTickerProps) {
 
   if (isLoading) {
     return (
-      <div className="hidden border-y border-border/40 bg-background/60 py-2 backdrop-blur md:block">
+      <div className="hidden border-y border-border/40 bg-background/60 py-1.5 backdrop-blur md:block">
         <div className="flex gap-3 overflow-hidden px-4">
           {Array.from({ length: 8 }).map((_, index) => (
             <div
@@ -212,7 +212,7 @@ export function PriceTicker({ teams, sport, isLoading }: PriceTickerProps) {
     <TickerTrack
       items={items}
       speed={100}
-      className="hidden border-y border-border/40 bg-background/60 py-2 backdrop-blur md:block"
+      className="hidden border-y border-border/40 bg-background/60 py-1.5 backdrop-blur md:block"
     />
   );
 }

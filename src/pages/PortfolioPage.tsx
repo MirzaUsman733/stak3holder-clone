@@ -78,7 +78,7 @@ export function PortfolioPage() {
   const [activeTab, setActiveTab] = useState<PortfolioTab>("positions");
   const [earnRewardsOpen, setEarnRewardsOpen] = useState(false);
 
-  const cashBalance = 0;
+  const cashBalance = 325;
   const portfolioValue = 0;
   const rewardsBalance = 0;
 
@@ -86,13 +86,10 @@ export function PortfolioPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Header
         showSearch
-        authenticated
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         cashBalance={cashBalance}
         portfolioValue={portfolioValue}
-        username="mirzausman"
-        avatarUrl="/pfp/Black_and_Red.png"
       />
 
       <main className="mx-auto max-w-4xl px-4 py-6 lg:py-8">

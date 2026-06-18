@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
+import { CoinsModeProvider } from "./context/CoinsModeContext";
 import { MarketProvider } from "./context/MarketContext";
 import { HomePage } from "./pages/HomePage";
 import { PortfolioPage } from "./pages/PortfolioPage";
@@ -8,7 +9,8 @@ import { PlaceholderPage } from "./pages/PlaceholderPage";
 export default function App() {
   return (
     <ThemeProvider>
-      <MarketProvider>
+      <CoinsModeProvider>
+        <MarketProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -75,6 +77,7 @@ export default function App() {
           </Routes>
         </BrowserRouter>
       </MarketProvider>
+      </CoinsModeProvider>
     </ThemeProvider>
   );
 }

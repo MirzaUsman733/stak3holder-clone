@@ -11,7 +11,12 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SportToggle } from "./SportToggle";
 import { AuthenticatedHeaderActions } from "./AuthenticatedHeaderActions";
+import {
+  MobileAuthenticatedNav,
+  MobileBalancePill,
+} from "./MobileAuthenticatedNav";
 import { useTheme } from "../context/ThemeContext";
+import { useFakeAuth } from "../hooks/useFakeAuth";
 import { cn } from "../lib/utils";
 import streakxLogo from "../assets/streakx-logo.png";
 
@@ -19,7 +24,6 @@ interface HeaderProps {
   showSearch?: boolean;
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
-  authenticated?: boolean;
   cashBalance?: number;
   portfolioValue?: number;
   username?: string;
@@ -30,13 +34,13 @@ export function Header({
   showSearch = false,
   searchQuery = "",
   onSearchChange,
-  authenticated = false,
-  cashBalance = 0,
+  cashBalance = 325,
   portfolioValue = 0,
-  username,
-  avatarUrl,
+  username = "mirzausman",
+  avatarUrl = "/pfp/Black_and_Red.png",
 }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
+  const { isLoggedIn, login, logout } = useFakeAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -68,7 +72,7 @@ export function Header({
   return (
     <nav className="sticky top-0 z-40 border-b border-white/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 lg:static lg:bg-transparent lg:backdrop-blur-none">
       <div className="site-container">
-        <div className="flex h-14 items-center justify-between lg:h-16">
+        <div className="relative flex h-14 items-center justify-between lg:h-16">
           <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-6">
             <Link to="/" className="flex shrink-0 items-center">
               <img
@@ -77,6 +81,10 @@ export function Header({
                 className="h-11 w-auto object-contain lg:h-12"
               />
             </Link>
+
+            {isLoggedIn && (
+              <MobileBalancePill cashBalance={cashBalance} />
+            )}
 
             <div className="hidden lg:flex">
               <SportToggle />
@@ -92,7 +100,7 @@ export function Header({
                   placeholder="Search teams and users..."
                   className={cn(
                     "bg-secondary py-2 pl-10 pr-4 text-sm outline-none transition-shadow focus:ring-2 focus:ring-primary",
-                    authenticated
+                    isLoggedIn
                       ? "w-[28rem] rounded-full"
                       : "w-96 rounded-lg",
                   )}
@@ -102,23 +110,30 @@ export function Header({
           </div>
 
           <div className="ml-3 flex shrink-0 items-center gap-2">
-            {authenticated ? (
-              <AuthenticatedHeaderActions
-                cashBalance={cashBalance}
-                portfolioValue={portfolioValue}
-                username={username}
-                avatarUrl={avatarUrl}
-              />
+            {isLoggedIn ? (
+              <>
+                <div className="hidden lg:block">
+                  <AuthenticatedHeaderActions
+                    cashBalance={cashBalance}
+                    portfolioValue={portfolioValue}
+                    username={username}
+                    avatarUrl={avatarUrl}
+                  />
+                </div>
+                <MobileAuthenticatedNav onLogout={logout} />
+              </>
             ) : (
-              <Link
-                to="/profile"
-                className="rounded-[7px] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              <button
+                type="button"
+                onClick={login}
+                className="rounded-full bg-foreground px-3 py-1.5 text-xs font-bold text-background transition-colors hover:bg-foreground/90 lg:rounded-[7px] lg:px-4 lg:py-2 lg:text-sm lg:font-semibold lg:bg-primary lg:text-primary-foreground lg:hover:bg-primary/90"
               >
-                Log In | Sign Up
-              </Link>
+                <span className="hidden lg:inline">Log In | Sign Up</span>
+                <span className="lg:hidden">Log In</span>
+              </button>
             )}
 
-            {!authenticated && (
+            {!isLoggedIn && (
             <div
               ref={menuRef}
               className="relative hidden lg:block"
@@ -177,7 +192,10 @@ export function Header({
               type="button"
               aria-label="Toggle menu"
               onClick={() => setMobileOpen((value) => !value)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card lg:hidden"
+              className={cn(
+                "inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card lg:hidden",
+                isLoggedIn && "hidden",
+              )}
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -210,7 +228,7 @@ export function Header({
                   />
                 </div>
               )}
-              {authenticated ? (
+              {isLoggedIn ? (
                 <>
                   <Link
                     to="/portfolio"
