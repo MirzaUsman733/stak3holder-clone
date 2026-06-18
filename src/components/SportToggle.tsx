@@ -4,10 +4,8 @@ import { SPORTS } from "../types";
 import { SportIcon } from "./SportIcon";
 import { cn } from "../lib/utils";
 
-type SportToggleOption = "all" | Sport;
-
 export function SportToggle({ className }: { className?: string }) {
-  const [activeSport, setActiveSport] = useState<SportToggleOption>("all");
+  const [activeSport, setActiveSport] = useState<Sport>("mlb");
 
   return (
     <div
@@ -18,22 +16,12 @@ export function SportToggle({ className }: { className?: string }) {
         className,
       )}
     >
-      <SportPill
-        active={activeSport === "all"}
-        label="ALL"
-        onClick={() => setActiveSport("all")}
-      />
       {SPORTS.map((option) => (
         <SportPill
           key={option.id}
           active={activeSport === option.id}
           label={option.shortLabel}
-          icon={
-            <SportIcon
-              sport={option.id}
-              className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4"
-            />
-          }
+          icon={<SportIcon sport={option.id} className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />}
           onClick={() => setActiveSport(option.id)}
         />
       ))}
@@ -49,7 +37,7 @@ function SportPill({
 }: {
   active: boolean;
   label: string;
-  icon?: ReactNode;
+  icon: ReactNode;
   onClick: () => void;
 }) {
   return (

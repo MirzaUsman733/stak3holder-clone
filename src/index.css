@@ -120,6 +120,14 @@
   display: none;
 }
 
+.shadow-glow-primary {
+  box-shadow: 0 0 24px -4px hsl(var(--primary) / 0.22);
+}
+
+.shadow-glow-primary-hover:hover {
+  box-shadow: 0 0 28px -4px hsl(var(--primary) / 0.32);
+}
+
 @keyframes ticker-left {
   0% {
     transform: translateX(0);

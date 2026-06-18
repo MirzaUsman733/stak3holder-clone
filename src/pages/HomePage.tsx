@@ -25,7 +25,6 @@ export function HomePage() {
     teams,
     trending,
     gainers,
-    teamByTokenAddress,
     isLoading,
   } = useMarketData(dataSport);
 
@@ -76,7 +75,7 @@ export function HomePage() {
           <TrendingSidebar items={trending} sport={dataSport} isLoading={isLoading} />
         </div>
 
-        <WeeklyTopTrades sport={dataSport} teamByToken={teamByTokenAddress} />
+        <WeeklyTopTrades sport={sport} />
 
         <div className="lg:hidden">
           <div className="mb-4 flex items-center justify-between">

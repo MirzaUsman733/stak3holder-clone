@@ -5,7 +5,6 @@ import {
   Search,
   Sun,
   Trophy,
-  X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -41,7 +40,6 @@ export function Header({
 }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const { isLoggedIn, login, logout } = useFakeAuth();
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuCloseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -126,10 +124,9 @@ export function Header({
               <button
                 type="button"
                 onClick={login}
-                className="rounded-full bg-foreground px-3 py-1.5 text-xs font-bold text-background transition-colors hover:bg-foreground/90 lg:rounded-[7px] lg:px-4 lg:py-2 lg:text-sm lg:font-semibold lg:bg-primary lg:text-primary-foreground lg:hover:bg-primary/90"
+                className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 sm:px-5 sm:text-sm"
               >
-                <span className="hidden lg:inline">Log In | Sign Up</span>
-                <span className="lg:hidden">Log In</span>
+                Log In / Sign Up
               </button>
             )}
 
@@ -187,18 +184,6 @@ export function Header({
               </AnimatePresence>
             </div>
             )}
-
-            <button
-              type="button"
-              aria-label="Toggle menu"
-              onClick={() => setMobileOpen((value) => !value)}
-              className={cn(
-                "inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card lg:hidden",
-                isLoggedIn && "hidden",
-              )}
-            >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
           </div>
         </div>
 
@@ -206,69 +191,6 @@ export function Header({
           <SportToggle />
         </div>
       </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-white/10 lg:hidden"
-          >
-            <div className="space-y-4 px-4 py-4">
-              {showSearch && (
-                <div className="relative">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    type="search"
-                    value={searchQuery}
-                    onChange={(event) => onSearchChange?.(event.target.value)}
-                    placeholder="Search teams and users..."
-                    className="w-full rounded-lg bg-secondary py-3 pl-10 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-              )}
-              {isLoggedIn ? (
-                <>
-                  <Link
-                    to="/portfolio"
-                    onClick={() => setMobileOpen(false)}
-                    className="block text-sm font-medium text-muted-foreground"
-                  >
-                    My Portfolio
-                  </Link>
-                  <Link
-                    to="/leaderboard"
-                    onClick={() => setMobileOpen(false)}
-                    className="block text-sm font-medium text-muted-foreground"
-                  >
-                    Leaderboard
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      toggleTheme();
-                    }}
-                    className="block text-sm font-medium text-muted-foreground"
-                  >
-                    {theme === "dark" ? "Light mode" : "Dark mode"}
-                  </button>
-                </>
-              ) : (
-                <>
-              <Link
-                to="/leaderboard"
-                onClick={() => setMobileOpen(false)}
-                className="block text-sm font-medium text-muted-foreground"
-              >
-                Leaderboard
-              </Link>
-                </>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 }
