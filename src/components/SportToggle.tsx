@@ -1,81 +1,44 @@
-import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import { useMarket } from "../context/MarketContext";
-import {
-  NAV_SPORTS,
-  marketSportToNavSport,
-  navSportToMarketSport,
-  type NavSport,
-} from "../types";
-import { SportIcon } from "./SportIcon";
+import type { Sport } from "../types";
 import { cn } from "../lib/utils";
 
-interface SportToggleProps {
-  className?: string;
-  variant?: "default" | "pill-bar";
+function BasketballIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
+      <path d="M12 2v20M2 12h20" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M5 5c3 3 7 7 14 14M19 5C16 8 12 12 5 19" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    </svg>
+  );
 }
 
-export function SportToggle({ className, variant = "default" }: SportToggleProps) {
-  const { sport, setSport } = useMarket();
-  const [navSport, setNavSport] = useState<NavSport>(() =>
-    marketSportToNavSport(sport),
+function FootballIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <ellipse cx="12" cy="12" rx="10" ry="6" stroke="currentColor" strokeWidth="2" fill="none" transform="rotate(-45 12 12)" />
+      <path d="M8 8l8 8M9 11l2-2M13 15l2-2M11 13l2-2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
   );
+}
 
-  useEffect(() => {
-    setNavSport(marketSportToNavSport(sport));
-  }, [sport]);
-
-  function handleSelect(next: NavSport) {
-    setNavSport(next);
-    const marketSport = navSportToMarketSport(next);
-    if (marketSport) {
-      setSport(marketSport);
-    }
-  }
-
-  const pills = NAV_SPORTS.map((id) => ({ id, label: id }));
-
-  if (variant === "pill-bar") {
-    return (
-      <div
-        className={cn(
-          "flex items-center gap-1 overflow-x-auto rounded-full border border-foreground/70 px-1.5 py-1 no-scrollbar",
-          className,
-        )}
-      >
-        {pills.map(({ id, label }) => {
-          const active = navSport === id;
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => handleSelect(id)}
-              className={cn(
-                "flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[11px] font-bold transition-all sm:text-sm",
-                active
-                  ? "bg-surface-2 text-foreground"
-                  : "text-muted-foreground hover:bg-surface-hover hover:text-foreground",
-              )}
-            >
-              <SportIcon sport={id} className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
-              {label}
-            </button>
-          );
-        })}
-      </div>
-    );
-  }
+export function SportToggle({ className }: { className?: string }) {
+  const { sport, setSport } = useMarket();
 
   return (
     <div className={cn("flex items-center gap-1", className)}>
-      {pills.map(({ id, label }) => (
-        <SportPill
-          key={id}
-          active={navSport === id}
-          label={label}
-          sport={id}
-          onClick={() => handleSelect(id)}
-        />
-      ))}
+      <SportPill
+        active={sport === "cbb"}
+        label="CBB"
+        icon={<BasketballIcon className="h-4 w-4" />}
+        onClick={() => setSport("cbb")}
+      />
+      <SportPill
+        active={sport === "cfb"}
+        label="CFB"
+        icon={<FootballIcon className="h-4 w-4" />}
+        onClick={() => setSport("cfb")}
+      />
     </div>
   );
 }
@@ -83,12 +46,12 @@ export function SportToggle({ className, variant = "default" }: SportToggleProps
 function SportPill({
   active,
   label,
-  sport,
+  icon,
   onClick,
 }: {
   active: boolean;
   label: string;
-  sport: NavSport;
+  icon: ReactNode;
   onClick: () => void;
 }) {
   return (
@@ -96,18 +59,18 @@ function SportPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm font-bold transition-all",
+        "flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
         active
-          ? "bg-surface-2 text-foreground"
-          : "text-muted-foreground hover:bg-surface-hover hover:text-foreground",
+          ? "bg-primary/10 text-primary"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground",
       )}
     >
-      <SportIcon sport={sport} className="h-4 w-4" />
+      {icon}
       {label}
     </button>
   );
 }
 
-export function getSportShortLabel(sport: NavSport) {
-  return sport;
+export function getSportShortLabel(sport: Sport) {
+  return sport === "cbb" ? "CBB" : "CFB";
 }
