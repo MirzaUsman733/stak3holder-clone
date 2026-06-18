@@ -20,11 +20,12 @@ interface WeeklyTopTradesProps {
 
 function StreakCard({ trade }: { trade: StreakTrade & { profit: number } }) {
   return (
-    <article
-      className={cn(
-        "w-[230px] shrink-0 snap-start cursor-pointer overflow-hidden rounded-2xl border border-primary/50 bg-card shadow-glow-primary transition-all hover:border-primary hover:shadow-glow-primary-hover",
-      )}
-    >
+    <div className="shrink-0 snap-start">
+      <article
+        className={cn(
+          "w-[230px] cursor-pointer overflow-hidden rounded-2xl border border-primary/40 bg-card shadow-glow-primary transition-all hover:border-primary/70 hover:shadow-glow-primary-hover",
+        )}
+      >
       <div className="flex items-center gap-2.5 px-3 pb-2.5 pt-3">
         <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-secondary ring-1 ring-border/40">
           <img
@@ -77,6 +78,7 @@ function StreakCard({ trade }: { trade: StreakTrade & { profit: number } }) {
         </div>
       </div>
     </article>
+    </div>
   );
 }
 
@@ -115,7 +117,7 @@ export function WeeklyTopTrades({ sport: sportProp }: WeeklyTopTradesProps) {
   if (trades.length === 0) return null;
 
   return (
-    <section className="mt-2 mb-4 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-background p-3 sm:p-4">
+    <section className="mt-2 mb-4">
       <div className="mb-3 flex items-center justify-between px-0.5">
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4 text-foreground" strokeWidth={2.5} />

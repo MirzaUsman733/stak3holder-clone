@@ -124,7 +124,7 @@ export function Header({
               <button
                 type="button"
                 onClick={login}
-                className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 sm:px-5 sm:text-sm"
+                className="inline-flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-[10px] bg-primary px-3 text-sm font-bold leading-none text-[#111111] transition-colors hover:bg-primary/90 sm:h-10 sm:px-4"
               >
                 Log In / Sign Up
               </button>
