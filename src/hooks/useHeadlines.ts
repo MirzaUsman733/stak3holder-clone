@@ -25,7 +25,7 @@ export function useHeadlines(sport: Sport, teamsById: Map<string, Team>) {
             abbreviation: tag.team.abbreviation,
             primaryColor:
               taggedTeam?.primaryColor ??
-              (tag.team.id === "duke" ? "#003087" : "#1e3a8a"),
+              (tag.team.id === "duke" ? "#003087" : "#14532d"),
             logoUrl: tag.team.logoUrl,
             change: taggedTeam?.change24h ?? null,
             rank: taggedTeam?.apRank ?? null,

@@ -9,15 +9,16 @@ function CoinIcon({ className = "" }: { className?: string }) {
     <svg
       viewBox="0 0 22 22"
       aria-hidden
-      className={className}
+      className={cn("text-primary-foreground", className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle
         cx="11"
         cy="11"
         r="9.4"
-        fill="#FFC629"
-        stroke="#000000"
+        fill="currentColor"
+        fillOpacity="0.25"
+        stroke="currentColor"
         strokeWidth="1.3"
       />
       <circle
@@ -25,8 +26,9 @@ function CoinIcon({ className = "" }: { className?: string }) {
         cy="11"
         r="7"
         fill="none"
-        stroke="#000000"
+        stroke="currentColor"
         strokeWidth="0.7"
+        strokeOpacity="0.6"
       />
       <text
         x="11"
@@ -35,7 +37,7 @@ function CoinIcon({ className = "" }: { className?: string }) {
         fontSize="9"
         fontWeight="900"
         fontFamily="DM Sans, Arial, sans-serif"
-        fill="#000000"
+        fill="currentColor"
         letterSpacing="-0.3"
       >
         C
@@ -60,7 +62,9 @@ export function MobileBalancePill({ cashBalance = 0 }: { cashBalance?: number })
       style={{ WebkitTapHighlightColor: "transparent" }}
       className={cn(
         "absolute left-1/2 top-1/2 flex h-[28px] w-[166px] -translate-x-[75px] -translate-y-1/2 items-center justify-center rounded-[8px] text-[12px] font-bold leading-none tracking-tight antialiased tabular-nums shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] outline-none focus:outline-none focus-visible:outline-none focus:ring-0 min-[400px]:w-[186px] min-[400px]:-translate-x-[85px] min-[400px]:text-[13px] min-[430px]:w-[206px] min-[430px]:-translate-x-[95px] lg:hidden",
-        coinsMode ? "bg-[#FFC629] text-[#111111]" : "bg-[#f4f4f4] text-[#111111]",
+        coinsMode
+          ? "bg-primary text-primary-foreground"
+          : "bg-[#f4f4f4] text-[#111111]",
       )}
     >
       {coinsMode ? (
@@ -90,7 +94,7 @@ export function MobileAuthenticatedNav({ onLogout }: MobileAuthenticatedNavProps
           className={cn(
             "flex h-[18px] w-[18px] items-center justify-center rounded-full text-[9px] font-black leading-none transition-transform duration-200",
             coinsMode
-              ? "translate-x-0 bg-[#FFC629] text-[#111]"
+              ? "translate-x-0 bg-primary text-primary-foreground"
               : "translate-x-[18px] bg-white text-[#111]",
           )}
         >
@@ -107,7 +111,7 @@ export function MobileAuthenticatedNav({ onLogout }: MobileAuthenticatedNavProps
         <LogOut
           className={cn(
             "h-5 w-5",
-            coinsMode ? "text-[#FFC629]" : "text-foreground",
+            coinsMode ? "text-primary" : "text-foreground",
           )}
         />
       </button>

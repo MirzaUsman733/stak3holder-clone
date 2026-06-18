@@ -47,7 +47,7 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
 
   const gradient = team
     ? `linear-gradient(to right, ${team.primaryColor}dd 0%, ${team.primaryColor} 100%)`
-    : "linear-gradient(to right, #1e3a8a 0%, #2563eb 100%)";
+    : "linear-gradient(to right, #14532d 0%, #22c55e 100%)";
 
   return (
     <button
