@@ -48,6 +48,8 @@ export function FeaturedHeadline({ headline }: FeaturedHeadlineProps) {
           aria-hidden
           className="absolute inset-0 h-full w-full object-cover"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
 
         <div className="relative flex h-full max-w-2xl flex-col justify-end p-5 sm:p-7">
           <h2 className="mb-2 line-clamp-3 text-lg font-bold text-white md:text-2xl">
